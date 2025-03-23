@@ -1,8 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <memory>
-#include <limits>
 
 //#include <Helper.h>
 class Buildings {
