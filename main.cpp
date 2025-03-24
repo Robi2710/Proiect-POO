@@ -146,7 +146,7 @@ private:
 
     int totalMaintenance() const {
         int total = 0;
-        for (const auto& building : buildings) {
+        for (const auto* const building : buildings) {
             total += (building->getCapacity() * 5) + (building->getcostMoney() / 10);
         }
         return total;
@@ -185,9 +185,9 @@ public:
         return population;
     }
 */
-    /*const std::vector<Buildings*>& getBuildings() const {
+    const std::vector<Buildings*>& getBuildings() const {
         return buildings;
-    }*/
+    }
 
     bool addBuilding(Buildings* building) {
         if (!resources.consumeResources(building->getcostMoney(),building->getcostMaterials())) {
@@ -247,7 +247,8 @@ int main() {
         std::cout << "1. Buy materials" << std::endl;
         std::cout << "2. Build" << std::endl;
         std::cout << "3. Show city info" << std::endl;
-        std::cout << "0. Iesire" << std::endl;
+        std::cout << "4. Show maintenace"<<std::endl;
+        std::cout << "0. Exit" << std::endl;
 
         int choice;
         std::cout<<"Enter your choice: ";
@@ -290,6 +291,13 @@ int main() {
             }
             case 3:
                 myCity.displayCityInfo();
+                break;
+            case 4:
+                std::cout << "Building Maintenance Costs:" << std::endl;
+                for (const auto* building : myCity.getBuildings()) {
+                    std::cout<<*building<<" Maintenance: "<< (building->getCapacity() * 5 + building->getcostMoney() / 10)
+                              << "$ per month" << std::endl;
+                }
                 break;
             case 0:
                 std::cout<<"Goodbye! Thank you for playing the game"<<std::endl;
