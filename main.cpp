@@ -108,17 +108,17 @@ public:
         return materials;
     }
 
-    bool sufficientResources(int money, int materials) const {
-        return this->money >= money && this->materials >= materials;
+    bool sufficientResources(int nmoney, int nmaterials) const {
+        return money >= nmoney && materials >= nmaterials;
     }
-    void setMaterials(int materials) {
-        this->materials = materials;
+    void setMaterials(int newmaterials) {
+        materials = newmaterials;
     }
 
-    bool consumeResources(int money, int materials) {
+    bool consumeResources(int cmoney, int cmaterials) {
         if (sufficientResources(money, materials)) {
-            this->money -= money;
-            this->materials -= materials;
+            money -= cmoney;
+            materials -= cmaterials;
             return true;
         }
         return false;
