@@ -9,6 +9,10 @@ private:
     int capacity;
     int costMoney;
     int costMaterials;
+
+    int maintenance() const {
+        return (capacity * 5) + (costMoney / 10);
+    }
 public:
     //constructor de initializare
     Buildings(const std::string& type, int capacity, int costMoney, int costMaterials) {
@@ -37,9 +41,9 @@ public:
         }
         return *this;
     }
-    //deconstructor
+    //destructor
     ~Buildings() {
-        std::cout<<"The building was destroyed";
+        //std::cout<<"The building was destroyed";
     }
     //getter
     const std::string& getType() const {
@@ -56,11 +60,11 @@ public:
     }*/
 
     int getcostMoney() const {
-        return costMoney;
+        return this->costMoney;
     }
 
     int getcostMaterials() const {
-        return costMaterials;
+        return this->costMaterials;
     }
 
     /*void dailyProduction(int& money, int& materials) {
@@ -74,6 +78,10 @@ public:
         os << "Building Type: " << building.type << ", Capacity: " << building.capacity
            << ", Cost: " << building.costMoney << "$ and " << building.costMaterials << " materials";
         return os;
+    }
+
+    void showMaintenance() const {
+        std::cout<<"Maintenance for "<<type<<": "<< maintenance()<<"$ per month"<<std::endl;
     }
 };
 /*class Map {
@@ -97,7 +105,7 @@ public:
     }
 
     int getMoney() const {
-        return money;
+        return this->money;
     }
 
     /*void setMoney(int money) {
@@ -105,20 +113,20 @@ public:
     }*/
 
     int getMaterials() const {
-        return materials;
+        return this->materials;
     }
 
     bool sufficientResources(int nmoney, int nmaterials) const {
-        return money >= nmoney && materials >= nmaterials;
+        return this->money >= nmoney && this->materials >= nmaterials;
     }
     void setMaterials(int newmaterials) {
-        materials = newmaterials;
+        this->materials = newmaterials;
     }
 
     bool consumeResources(int cmoney, int cmaterials) {
-        if (sufficientResources(money, materials)) {
-            money -= cmoney;
-            materials -= cmaterials;
+        if (sufficientResources(cmoney, cmaterials)) {
+            this->money -= cmoney;
+            this->materials -= cmaterials;
             return true;
         }
         return false;
@@ -135,6 +143,23 @@ private:
     int population;
     Resources resources;
     std::vector<Buildings*> buildings;
+
+    int totalMaintenance() const {
+        int total = 0;
+        for (const auto& building : buildings) {
+            total += (building->getCapacity() * 5) + (building->getcostMoney() / 10);
+        }
+        return total;
+    }
+
+    void checkCityStatus() const {
+        if (population == 0) {
+            std::cout << "Warning: Your city is empty! Build more houses to attract people." << std::endl;
+        }
+        if (resources.getMoney() < 500) {
+            std::cout << "Warning: Low funds! Manage your resources wisely." << std::endl;
+        }
+    }
 public:
     explicit City(const std::string& name, int population=0, const Resources& resources= Resources()) {
         this->name = name;
@@ -181,6 +206,8 @@ public:
         if (building->getType() == "factory") {
             std::cout<<"A factory was built"<<std::endl;
         }
+
+        checkCityStatus();
         return true;
     }
 
@@ -189,6 +216,7 @@ public:
         std::cout << "Populaton: " << population << std::endl;
         std::cout <<"Resources: " << resources << std::endl;
         std::cout << "Number of buildings: " << buildings.size() << std::endl;
+        std::cout << "Total monthly maintenance: " << totalMaintenance() << "$" << std::endl;
     }
 
     friend std::ostream& operator<<(std::ostream& os, const City& city) {
@@ -198,60 +226,6 @@ public:
     }
 };
 int main() {
-    /*std::cout << "Hello, world!\n";
-    std::array<int, 100> v{};
-    int nr;
-    std::cout << "Introduceți nr: ";*/
-    /////////////////////////////////////////////////////////////////////////
-    /// Observație: dacă aveți nevoie să citiți date de intrare de la tastatură,
-    /// dați exemple de date de intrare folosind fișierul tastatura.txt
-    /// Trebuie să aveți în fișierul tastatura.txt suficiente date de intrare
-    /// (în formatul impus de voi) astfel încât execuția programului să se încheie.
-    /// De asemenea, trebuie să adăugați în acest fișier date de intrare
-    /// pentru cât mai multe ramuri de execuție.
-    /// Dorim să facem acest lucru pentru a automatiza testarea codului, fără să
-    /// mai pierdem timp de fiecare dată să introducem de la zero aceleași date de intrare.
-    ///
-    /// Pe GitHub Actions (bife), fișierul tastatura.txt este folosit
-    /// pentru a simula date introduse de la tastatură.
-    /// Bifele verifică dacă programul are erori de compilare, erori de memorie și memory leaks.
-    ///
-    /// Dacă nu puneți în tastatura.txt suficiente date de intrare, îmi rezerv dreptul să vă
-    /// testez codul cu ce date de intrare am chef și să nu pun notă dacă găsesc vreun bug.
-    /// Impun această cerință ca să învățați să faceți un demo și să arătați părțile din
-    /// program care merg (și să le evitați pe cele care nu merg).
-    ///
-    /////////////////////////////////////////////////////////////////////////
-    /*std::cin >> nr;
-    /////////////////////////////////////////////////////////////////////////
-    for(int i = 0; i < nr; ++i) {
-        std::cout << "v[" << i << "] = ";
-        std::cin >> v[i];
-    }
-    std::cout << "\n\n";
-    std::cout << "Am citit de la tastatură " << nr << " elemente:\n";
-    for(int i = 0; i < nr; ++i) {
-        std::cout << "- " << v[i] << "\n";
-    }
-    ///////////////////////////////////////////////////////////////////////////
-    /// Pentru date citite din fișier, NU folosiți tastatura.txt. Creați-vă voi
-    /// alt fișier propriu cu ce alt nume doriți.
-    /// Exemplu:
-    /// std::ifstream fis("date.txt");
-    /// for(int i = 0; i < nr2; ++i)
-    ///     fis >> v2[i];
-    ///
-    ///////////////////////////////////////////////////////////////////////////
-    ///                Exemplu de utilizare cod generat                     ///
-    ///////////////////////////////////////////////////////////////////////////
-    Helper helper;
-    helper.help();
-    ///////////////////////////////////////////////////////////////////////////*/
-    /*Buildings f1("factory",50);
-    std::cout<<std::endl;
-    f1.setCapacity(-5);
-    std::cout<<f1.getCapacity();
-    std::cout<<std::endl;*/
     std::string cityName;
     std::cout<<"Introduce your city name: ";
     std::getline(std::cin,cityName);
