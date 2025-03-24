@@ -42,7 +42,7 @@ public:
         std::cout<<"The building was destroyed";
     }
     //getter
-    std::string getType() const {
+    const std::string& getType() const {
         return type;
     }
 
