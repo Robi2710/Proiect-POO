@@ -39,7 +39,7 @@ public:
     }
     //deconstructor
     ~Buildings() {
-        std::cout<<"Cladirea a fost demolata";
+        std::cout<<"The building was destroyed";
     }
     //getter
     std::string getType() const {
@@ -50,10 +50,10 @@ public:
         return capacity;
     }
 
-    void setCapacity(int capacity) {
+    /*void setCapacity(int capacity) {
         if (capacity > 0)
             this->capacity = capacity;
-    }
+    }*/
 
     int getcostMoney() const {
         return costMoney;
@@ -63,12 +63,12 @@ public:
         return costMaterials;
     }
 
-    void dailyProduction(int& money, int& materials) {
+    /*void dailyProduction(int& money, int& materials) {
         if (type == "factory") {
             money += capacity * 2;
             materials += materials / 10;
         }
-    }
+    }*/
 
     friend std::ostream& operator<<(std::ostream& os, const Buildings& building) {
         os << "Building Type: " << building.type << ", Capacity: " << building.capacity
@@ -91,7 +91,7 @@ private:
     int money;
     int materials;
 public:
-    Resources(int money = 10000,int materials = 0) {
+    explicit Resources(int money = 10000,int materials = 0) {
         this->money = money;
         this->materials = materials;
     }
@@ -100,9 +100,9 @@ public:
         return money;
     }
 
-    void setMoney(int money) {
+    /*void setMoney(int money) {
         this->money = money;
-    }
+    }*/
 
     int getMaterials() const {
         return materials;
@@ -136,7 +136,7 @@ private:
     Resources resources;
     std::vector<Buildings*> buildings;
 public:
-    City(const std::string name, int population=0, const Resources& resources= Resources()) {
+    explicit City(const std::string& name, int population=0, const Resources& resources= Resources()) {
         this->name = name;
         this->population = population;
         this->resources = resources;
@@ -152,17 +152,17 @@ public:
         return resources;
     }
 
-    std::string getName() const {
+    /*std::string getName() const {
         return name;
-    }
+    }*/
 
-    int getPopulation() const {
+    /*int getPopulation() const {
         return population;
     }
-
-    const std::vector<Buildings*>& getBuildings() const {
+*/
+    /*const std::vector<Buildings*>& getBuildings() const {
         return buildings;
-    }
+    }*/
 
     bool addBuilding(Buildings* building) {
         if (!resources.consumeResources(building->getcostMoney(),building->getcostMaterials())) {
@@ -178,6 +178,9 @@ public:
             std::cout<<"Population increased by "<<building->getCapacity()<<" people"<<std::endl;
         }
 
+        if (building->getType() == "factory") {
+            std::cout<<"A factory was built"<<std::endl;
+        }
         return true;
     }
 
