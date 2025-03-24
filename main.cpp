@@ -295,8 +295,7 @@ int main() {
             case 4:
                 std::cout << "Building Maintenance Costs:" << std::endl;
                 for (const auto* building : myCity.getBuildings()) {
-                    std::cout<<*building<<" Maintenance: "<< (building->getCapacity() * 5 + building->getcostMoney() / 10)
-                              << "$ per month" << std::endl;
+                    building->showMaintenance();
                 }
                 break;
             case 0:
